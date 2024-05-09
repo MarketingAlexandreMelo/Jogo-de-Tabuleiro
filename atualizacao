@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jogo de Tabuleiro</title>
+<style>
+    body {
+        background-color: black;
+        color: white;
+        font-family: Arial, sans-serif;
+    }
+    .board {
+        display: flex;
+        flex-wrap: wrap;
+        width: 600px;
+        margin: 20px auto;
+    }
+    .snake {
+        display: flex;
+        flex-wrap: wrap;
+        width: 100%;
+        height: 600px;
+        justify-content: flex-end;
+    }
+    .tile {
+        width: calc(100% / 6);
+        height: 100px;
+        border: 2px solid white;
+        box-sizing: border-box;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        position: relative;
+    }
+    .tile:nth-child(6n+1) {
+        background-color: green;
+    }
+    .tile:nth-child(6n+2) {
+        background-color: white;
+    }
+    .tile:nth-child(6n+3) {
+        background-color: gold;
+    }
+    .tile.completed {
+        background-color: gray;
+    }
+    .tile.completed .checkbox {
+        display: block;
+    }
+    .checkbox {
+        display: none;
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        width: 20px;
+        height: 20px;
+        background-color: white;
+        color: black;
+        border: 1px solid black;
+        border-radius: 3px;
+        cursor: pointer;
+        font-size: 16px;
+        line-height: 18px;
+        text-align: center;
+    }
+</style>
+</head>
+<body>
+<div class="board">
+    <div class="snake">
+        <div class="tile" onclick="showModal(1)">1<div class="checkbox" onclick="completeTask(1)">✓</div></div>
+        <div class="tile" onclick="showModal(2)">2<div class="checkbox" onclick="completeTask(2)">✓</div></div>
+        <div class="tile" onclick="showModal(3)">3<div class="checkbox" onclick="completeTask(3)">✓</div></div>
+        <div class="tile" onclick="showModal(4)">4<div class="checkbox" onclick="completeTask(4)">✓</div></div>
+        <div class="tile" onclick="showModal(5)">5<div class="checkbox" onclick="completeTask(5)">✓</div></div>
+        <div class="tile" onclick="showModal(6)">6<div class="checkbox" onclick="completeTask(6)">✓</div></div>
+        <div class="tile" onclick="showModal(7)">7<div class="checkbox" onclick="completeTask(7)">✓</div></div>
+        <div class="tile" onclick="showModal(8)">8<div class="checkbox" onclick="completeTask(8)">✓</div></div>
+        <div class="tile" onclick="showModal(9)">9<div class="checkbox" onclick="completeTask(9)">✓</div></div>
+        <div class="tile" onclick="showModal(10)">10<div class="checkbox" onclick="completeTask(10)">✓</div></div>
+        <div class="tile" onclick="showModal(11)">11<div class="checkbox" onclick="completeTask(11)">✓</div></div>
+        <div class="tile" onclick="showModal(12)">12<div class="checkbox" onclick="completeTask(12)">✓</div></div>
+        <div class="tile" onclick="showModal(13)">13<div class="checkbox" onclick="completeTask(13)">✓</div></div>
+        <div class="tile" onclick="showModal(14)">14<div class="checkbox" onclick="completeTask(14)">✓</div></div>
+        <div class="tile" onclick="showModal(15)">15<div class="checkbox" onclick="completeTask(15)">✓</div></div>
+        <div class="tile" onclick="showModal(16)">16<div class="checkbox" onclick="completeTask(16)">✓</div></div>
+        <div class="tile" onclick="showModal(17)">17<div class="checkbox" onclick="completeTask(17)">✓</div></div>
+        <div class="tile" onclick="showModal(18)">18<div class="checkbox" onclick="completeTask(18)">✓</div></div>
+        <div class="tile" onclick="showModal(19)">19<div class="checkbox" onclick="completeTask(19)">✓</div></div>
+        <div class="tile" onclick="showModal(20)">20<div class="checkbox" onclick="completeTask(20)">✓</div></div>
+        <div class="tile" onclick="showModal(21)">21<div class="checkbox" onclick="completeTask(21)">✓</div></div>
+        <div class="tile" onclick="showModal(22)">22<div class="checkbox" onclick="completeTask(22)">✓</div></div>
+        <div class="tile" onclick="showModal(23)">23<div class="checkbox" onclick="completeTask(23)">✓</div></div>
+        <div class="tile" onclick="showModal(24)">24<div class="checkbox" onclick="completeTask(24)">✓</div></div>
+        <div class="tile" onclick="showModal(25)">25<div class="checkbox" onclick="completeTask(25)">✓</div></div>
+        <div class="tile" onclick="showModal(26)">26<div class="checkbox" onclick="completeTask(26)">✓</div></div>
+        <div class="tile" onclick="showModal(27)">27<div class="checkbox" onclick="completeTask(27)">✓</div></div>
+        <div class="tile" onclick="showModal(28)">28<div class="checkbox" onclick="completeTask(28)">✓</div></div>
+        <div class="tile" onclick="showModal(29)">29<div class="checkbox" onclick="completeTask(29)">✓</div></div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div id="modal" class="modal">
+    <h2 id="modal-title">Casa X</h2>
+    <p id="modal-text">Texto da Casa X</p>
+    <button onclick="closeModal()">Fechar</button>
+</div>
+
+<script>
+    function showModal(casa) {
+        const modal = document.getElementById('modal');
+        const modalTitle = document.getElementById('modal-title');
+        const modalText = document.getElementById('modal-text');
+
+        switch (casa) {
+            case 1:
+                modalTitle.textContent = 'Casa 1';
+                modalText.textContent = 'Peça 1: Video de Boas Vindas';
+                break;
+            case 2:
+                modalTitle.textContent = 'Casa 2';
+                modalText.textContent = 'Peça 2: Eliminação dos sabotadores';
+                break;
+            // Adicionar mais casos conforme necessário
+        }
+
+        modal.dataset.currentTile = casa;
+        modal.classList.add('active');
+    }
+
+    function closeModal() {
+        const modal = document.getElementById('modal');
+        modal.classList.remove('active');
+    }
+
+    function completeTask(casa) {
+        const tileElement = document.querySelector(`.tile[data-tile="${casa}"]`);
+        
+        if (!tileElement.classList.contains('completed')) {
+            tileElement.classList.add('completed');
+        }
+
+        closeModal();
+    }
+</script>
+</body>
+</html>
+Este código apresenta as casas em formato de cobra com cores verde, branco e dourado, além de incluir a opção de marcar as tarefas como concluídas com um quadrado de seleção dentro das janelas modais. Certifique-se de adicionar os casos específicos para cada casa no JavaScript conforme necessário.
+
+
+
+
+User
+Corrija e complete com todas as informações que passei nas perguntas anteriores
+ChatGPT
+Claro, vou corrigir e adicionar todas as informações que você passou nas perguntas anteriores ao código. Aqui está o código completo:
+
+html
+Copy code
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jogo de Tabuleiro</title>
+<style>
+    body {
+        background-color: black;
+        color: white;
+        font-family: Arial, sans-serif;
+    }
+    .board {
+        display: flex;
+        flex-wrap: wrap;
+        width: 600px;
+        margin: 20px auto;
+    }
+    .snake {
+        display: flex;
+        flex-wrap: wrap;
+        width: 100%;
+        height: 600px;
+        justify-content: flex-end;
+    }
+    .tile {
+        width: calc(100% / 6);
+        height: 100px;
+        border: 2px solid white;
+        box-sizing: border-box;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        position: relative;
+    }
+    .tile:nth-child(6n+1) {
+        background-color: green;
+    }
+    .tile:nth-child(6n+2) {
+        background-color: white;
+    }
+    .tile:nth-child(6n+3) {
+        background-color: gold;
+    }
+    .tile.completed {
+        background-color: gray;
+    }
+    .tile.completed .checkbox {
+        display: block;
+    }
+    .checkbox {
+        display: none;
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        width: 20px;
+        height: 20px;
+        background-color: white;
+        color: black;
+        border: 1px solid black;
+        border-radius: 3px;
+        cursor: pointer;
+        font-size: 16px;
+        line-height: 18px;
+        text-align: center;
+    }
+</style>
+</head>
+<body>
+<div class="board">
+    <div class="snake">
+        <div class="tile" onclick="showModal(1)">1<div class="checkbox" onclick="completeTask(1)">✓</div></div>
+        <div class="tile" onclick="showModal(2)">2<div class="checkbox" onclick="completeTask(2)">✓</div></div>
+        <div class="tile" onclick="showModal(3)">3<div class="checkbox" onclick="completeTask(3)">✓</div></div>
+        <div class="tile" onclick="showModal(4)">4<div class="checkbox" onclick="completeTask(4)">✓</div></div>
+        <div class="tile" onclick="showModal(5)">5<div class="checkbox" onclick="completeTask(5)">✓</div></div>
+        <div class="tile" onclick="showModal(6)">6<div class="checkbox" onclick="completeTask(6)">✓</div></div>
+        <div class="tile" onclick="showModal(7)">7<div class="checkbox" onclick="completeTask(7)">✓</div></div>
+        <div class="tile" onclick="showModal(8)">8<div class="checkbox" onclick="completeTask(8)">✓</div></div>
+        <div class="tile" onclick="showModal(9)">9<div class="checkbox" onclick="completeTask(9)">✓</div></div>
+        <div class="tile" onclick="showModal(10)">10<div class="checkbox" onclick="completeTask(10)">✓</div></div>
+        <div class="tile" onclick="showModal(11)">11<div class="checkbox" onclick="completeTask(11)">✓</div></div>
+        <div class="tile" onclick="showModal(12)">12<div class="checkbox" onclick="completeTask(12)">✓</div></div>
+        <div class="tile" onclick="showModal(13)">13<div class="checkbox" onclick="completeTask(13)">✓</div></div>
+        <div class="tile" onclick="showModal(14)">14<div class="checkbox" onclick="completeTask(14)">✓</div></div>
+        <div class="tile" onclick="showModal(15)">15<div class="checkbox" onclick="completeTask(15)">✓</div></div>
+        <div class="tile" onclick="showModal(16)">16<div class="checkbox" onclick="completeTask(16)">✓</div></div>
+        <div class="tile" onclick="showModal(17)">17<div class="checkbox" onclick="completeTask(17)">✓</div></div>
+        <div class="tile" onclick="showModal(18)">18<div class="checkbox" onclick="completeTask(18)">✓</div></div>
+        <div class="tile" onclick="showModal(19)">19<div class="checkbox" onclick="completeTask(19)">✓</div></div>
+        <div class="tile" onclick="showModal(20)">20<div class="checkbox" onclick="completeTask(20)">✓</div></div>
+        <div class="tile" onclick="showModal(21)">21<div class="checkbox" onclick="completeTask(21)">✓</div></div>
+        <div class="tile" onclick="showModal(22)">22<div class="checkbox" onclick="completeTask(22)">✓</div></div>
+        <div class="tile" onclick="showModal(23)">23<div class="checkbox" onclick="completeTask(23)">✓</div></div>
+        <div class="tile" onclick="showModal(24)">24<div class="checkbox" onclick="completeTask(24)">✓</div></div>
+        <div class="tile" onclick="showModal(25)">25<div class="checkbox" onclick="completeTask(25)">✓</div></div>
+        <div class="tile" onclick="showModal(26)">26<div class="checkbox" onclick="completeTask(26)">✓</div></div>
+        <div class="tile" onclick="showModal(27)">27<div class="checkbox" onclick="completeTask(27)">✓</div></div>
+        <div class="tile" onclick="showModal(28)">28<div class="checkbox" onclick="completeTask(28)">✓</div></div>
+        <div class="tile" onclick="showModal(29)">29<div class="checkbox" onclick="completeTask(29)">✓</div></div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div id="modal" class="modal">
+    <h2 id="modal-title">Casa X</h2>
+    <p id="modal-text">Texto da Casa X</p>
+    <button onclick="closeModal()">Fechar</button>
+</div>
+
+<img src="trophy.png" alt="Troféu" style="display: block; margin: 20px auto; width: 100px;">
+
+<script>
+    function showModal(casa) {
+        const modal = document.getElementById('modal');
+        const modalTitle = document.getElementById('modal-title');
+        const modalText = document.getElementById('modal-text');
+
+        switch (casa) {
+            case 1:
+                modalTitle.textContent = 'Casa 1';
+                modalText.textContent = 'Peça 1: Vídeo de Boas Vindas';
+                break;
+            case 2:
+                modalTitle.textContent = 'Casa 2';
+                modalText.textContent = 'Peça 2: Aula 1 - Eliminando os Sabotadores';
+                break;
+            case 3:
+                modalTitle.textContent = 'Casa 3';
+                modalText.innerHTML = 'Peça 3: Baixe o Desafio 1 e faça o exercício<br><a href="https://drive.google.com/file/d/1ahEpnBzboJ5ptcJAAV8u2BecKWIoYUiV/view?usp=sharing" target="_blank">Link para o Desafio 1</a>';
+                break;
+            case 4:
+                modalTitle.textContent = 'Casa 4';
+                modalText.innerHTML = 'Peça 4: Baixe o Desafio Vip 1 e faça o exercício<br><a href="https://drive.google.com/file/d/1ahEpnBzboJ5ptcJAAV8u2BecKWIoYUiV/view?usp=sharing" target="_blank">Link para o Desafio Vip 1</a>';
+                break;
+            case 5:
+                modalTitle.textContent = 'Casa 5';
+                modalText.innerHTML = 'Peça 5: Tire uma foto e poste no seu Story com #euestendoamao e marque @eusou.alexandremelo';
+                break;
+            case 6:
+                modalTitle.textContent = 'Casa 6';
+                modalText.innerHTML = 'Peça 6: Sessão Individual de Posicionamento';
+                break;
+            case 7:
+                modalTitle.textContent = 'Casa 7';
+                modalText.innerHTML = 'Peça 7: Hot Seat em Grupo';
+                break;
+            case 8:
+                modalTitle.textContent = 'Casa 8';
+                modalText.innerHTML = 'Peça 8: Estruture a sua mentoria Desafio 2<br><a href="https://drive.google.com/file/d/1xkCRf1dnVk7fQbQSaXk2Creq5X3W5GOR/view?usp=drive_link" target="_blank">Link para o Desafio 2</a>';
+                break;
+            case 9:
+                modalTitle.textContent = 'Casa 9';
+                modalText.innerHTML = 'Peça 9: Baixe o Desafio Vip 2 e faça o exercício<br><a href="https://drive.google.com/file/d/1atPq777PSHrGQYTVMDKlva6hh6yDmCVp/view?usp=sharing" target="_blank">Link para o Desafio Vip 2</a>';
+                break;
+            case 10:
+                modalTitle.textContent = 'Casa 10';
+                modalText.textContent = 'Peça 10: Não cumpriu o desafio? Volte duas casas. Esse desafio é muito importante para você seguir no jogo!';
+                break;
+            case 11:
+                modalTitle.textContent = 'Casa 11';
+                modalText.textContent = 'Peça 11: Estruturar sua esteira. Agenda Alexandre Melo. Vídeo plataforma';
+                break;
+            case 12:
+                modalTitle.textContent = 'Casa 12';
+                modalText.textContent = 'Peça 12: Hot Seat em Grupo';
+                break;
+            case 13:
+                modalTitle.textContent = 'Casa 13';
+                modalText.innerHTML = 'Peça 13: Faça a sequência de stories - Minha Mentoria Desafio 3<br><a href="https://drive.google.com/file/d/1HP8kS8Z-rV2If6MylkTsJKG56eSiFav9/view?usp=drive_link" target="_blank">Link para o Desafio 3</a>';
+                break;
+            case 14:
+                modalTitle.textContent = 'Casa 14';
+                modalText.textContent = 'Peça 14: Precificação da sua mentoria e escolha do público.';
+                break;
+            case 15:
+                modalTitle.textContent = 'Casa 15';
+                modalText.textContent = 'Peça 15: Compartilhe no foto mostrando seu dia de mentor(a)';
+                break;
+            case 16:
+                modalTitle.textContent = 'Casa 16';
+                modalText.textContent = 'Peça 16: Agenda Alexandre Melo';
+                break;
+            case 17:
+                modalTitle.textContent = 'Casa 17';
+                modalText.innerHTML = 'Peça 17: Desafio 4 : Baixe o nosso modelo de formulário - Curso Workshop<br><a href="https://drive.google.com/file/d/1aDyZDqW_KLMmjB6VlRLZ0wW-o01BDwwQ/view?usp=sharing" target="_blank">Link para o Desafio 4</a>';
+                break;
+            case 18:
+                modalTitle.textContent = 'Casa 18';
+                modalText.textContent = 'Peça 18: Hot Seat em Grupo';
+                break;
+            case 19:
+                modalTitle.textContent = 'Casa 19';
+                modalText.innerHTML = 'Peça 19: Selecione seus futuros mentorados - CRM<br><a href="https://docs.google.com/spreadsheets/d/1QfgRc92dV0I-An2KaRQ7CN3fkdBKibdy/edit?usp=drive_link&ouid=115399877460751494749&rtpof=true&sd=true" target="_blank">Link para a Planilha de CRM</a><br>Assistir o WorkShop:<br><a href="https://membros.mentoriaalexandremelo.com.br/curso/sou-mentor/77667/431538" target="_blank">Link para o Workshop</a>';
+                break;
+            case 20:
+                modalTitle.textContent = 'Casa 20';
+                modalText.innerHTML = 'Peça 20: Treine a oferta da sua mentoria. Desafio Vip 4.<br><a href="https://drive.google.com/file/d/11SVqP9TJd7geFPiZwdxoeINiBuNKqcil/view?usp=sharing" target="_blank">Link para o Desafio Vip 4</a>';
+                break;
+            case 21:
+                modalTitle.textContent = 'Casa 21';
+                modalText.textContent = 'Peça 21: Agenda com Alexandre Melo';
+                break;
+            case 22:
+                modalTitle.textContent = 'Casa 22';
+                modalText.innerHTML = 'Peça 22: Assistir na Plataforma do Mentoria a Sessão: Apresentar a Mentoria<br><a href="https://membros.mentoriaalexandremelo.com.br/curso/sou-mentor/77667/466161" target="_blank">Link para a Sessão</a>';
+                break;
+            case 23:
+                modalTitle.textContent = 'Casa 23';
+                modalText.innerHTML = 'Peça 23: Compartilhe as vitórias de hoje no Instagram do @eusou.alexandremelo no post “Correr com quem quer correr…”';
+                break;
+            case 24:
+                modalTitle.textContent = 'Casa 24';
+                modalText.textContent = 'Peça 24: Hot Seat em Grupo';
+                break;
+            case 25:
+                modalTitle.textContent = 'Casa 25';
+                modalText.innerHTML = 'Peça 25: Desenvolva o seu Workshop - Assistir na plataforma o Curso de Workshop:<br><a href="https://membros.mentoriaalexandremelo.com.br/curso/curso/69973/419735" target="_blank">Link para o Curso de Workshop</a>';
+                break;
+            case 26:
+                modalTitle.textContent = 'Casa 26';
+                modalText.textContent = 'Peça 26: Solicita a equipe Alexandre Melo o modelo de apresentação de sua mentoria.';
+                break;
+            case 27:
+                modalTitle.textContent = 'Casa 27';
+                modalText.textContent = 'Peça 27: Revisar posicionamento';
+                break;
+            case 28:
+                modalTitle.textContent = 'Casa 28';
+                modalText.innerHTML = 'Peça 28: Compartilhe os ganhos da sua mentoria no Instagram e como ela pode transformar as pessoas.<br><a href="https://membros.mentoriaalexandremelo.com.br/curso/sou-mentor/77667/470908" target="_blank">Link para a sessão "Inicio das Vendas"</a>';
+                break;
+            case 29:
+                modalTitle.textContent = 'Casa 29';
+                modalText.textContent = 'Peça 29: Parabéns!!! Você chegou ao fim do nosso desafio!';
+                break;
+            default:
+                modalTitle.textContent = 'Casa X';
+                modalText.textContent = 'Texto da Casa X';
+        }
+
+        modal.dataset.currentTile = casa;
+        modal.classList.add('active');
+    }
+
+    function closeModal() {
+        const modal = document.getElementById('modal');
+        modal.classList.remove('active');
+    }
+
+    function completeTask(casa) {
+        const tileElement = document.querySelector(`.tile[data-tile="${casa}"]`);
+        
+        if (!tileElement.classList.contains('completed')) {
+            tileElement.classList.add('completed');
+        }
+
+        closeModal();
+    }
+</script>
+</body>
+</html>
